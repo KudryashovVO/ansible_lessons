@@ -1,0 +1,49 @@
+#Example
+
+ansible -i hosts.txt all -m ping
+
+#Показывает дерево хостов
+ansible-inventory --list
+ansible-inventory --graph
+
+
+# Показывает все настройки устрйоств входящие в группу prod_servers
+ansible prod_server -m setup
+
+#выполнение shell команды
+ansible all -m shell -a "uptime"
+ansible all -m command -a "uptime"
+
+# копирование file на машины. -b=с правами sudo
+ansible all -m copy -a "src=/home/administrator/file.txt dst=/home/user/dir mode=777" -b
+
+#Удаление файла
+ansible all -m file -a "path=/home/user/dir/file.txt state=apsent" -b
+
+#Скачать с интернета файл на все машины
+ansible all -m get_url -a "url=https://................ dst=/home/dir" -b
+
+#Установить ПО на RedHat
+ansible all -m yml -a "name=stress state=latest(or install)" -b
+
+#Проверка открытия страницы (статус=200)
+ansible all -m uri -a "url=https://................."
+
+#Проверка открытия страницы (c содержимым вида HTML)
+ansible all -m uri -a "url=https://................. return_content=yes"
+
+
+#Установка apache
+ansible all -m yum -a "name-httpd state=install" -b
+
+#Запуск сервиса, и автозапуск при перезагрузке
+ansible all -m service -a "name=httpd state=started enabled=yes"
+
+#Удаление сервиса
+ansible all -m yum -a "name-httpd state=removed" -b
+
+#Debug Просмотр доп параметров: какой user используется,какой ansible и многое другое. Каждая -v более тщательный анализ (1-5 v)
+ansible all -m shell -a "uptime" -vvv
+
+#Все возможные модули
+ansible_doc -l | grep win_
