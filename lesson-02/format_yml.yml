@@ -1,0 +1,12 @@
+---
+ #Важно в yml не пользоваться tab и использовать правильно пробелыю.
+ - name: Petya
+    skills:
+      -manager
+      -developer
+
+ - name: Vasia
+    skills:
+      -accountatant
+      -sale
+ -name: Egor {skills: ['developer', 'manger']
