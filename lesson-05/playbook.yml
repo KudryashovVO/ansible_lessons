@@ -1,0 +1,49 @@
+---
+  - name: Debug for variables
+    hosts: all
+    become: yes
+
+    vars:
+      massage1 = Vasia
+      massage2 = Petia
+      secret   = asdssadasdasdasd
+
+
+    tasks:
+
+# Вывод в output
+      - name: Print secret variables
+        debug:
+          var: secret
+
+      - name: Show massage1
+        debug:
+          msg: secret password {{ secret }}
+
+      - name: text from hosts.txt
+        debug:
+          msg: name owner : {{ owner }}
+
+# Соеденить vars
+      - ser_fact:
+          full_msg = "from {{ massage1 }} to {{ massage2 }}"
+
+      - name: output full_msg
+        debug:
+          var: full_msg
+
+# ansible all -m setup - покажет все настрйки машины
+
+      - name: Show setting machine
+        debug:
+          var: ansible_distribution
+
+# register - запоминание вывода для дальнейшего отображения
+
+     - name: run shell
+       shell: uptime
+       register: results
+
+    - name: show results
+      debug:
+        var: results

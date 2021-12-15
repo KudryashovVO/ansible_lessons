@@ -1,5 +1,8 @@
 #Example
 
+#выполнить команды
+ansible-playbook имя_плейбука
+
 ansible -i hosts.txt all -m ping
 
 #Показывает дерево хостов
