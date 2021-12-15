@@ -25,7 +25,7 @@
           msg: name owner : {{ owner }}
 
 # Соеденить vars
-      - ser_fact:
+      - set_fact:
           full_msg = "from {{ massage1 }} to {{ massage2 }}"
 
       - name: output full_msg
