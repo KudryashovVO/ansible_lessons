@@ -1,0 +1,32 @@
+#Example
+#short recording
+
+#Structure
+
+[routers]
+192.168.1.1
+192.168.1.2
+
+
+[switches]
+192.168.2.1
+192.168.2.2
+
+#groups
+[network:children]
+routers
+switches
+
+
+#Connection for Linux
+
+[prod_servers]
+linux1 ansible_host=web.google.com
+
+
+#Connection for Windows
+#Before connection, you need to install ansible_configure.ps1
+
+[prod_windows]
+windows2012 ansible_host=172.16.1.2
+windows2012 ansible_host=172.16.1.3

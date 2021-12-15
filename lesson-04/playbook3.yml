@@ -1,0 +1,32 @@
+---
+  - name: Install Apache and Upload Web Server
+    hosts: all
+    become: yes
+
+    vars:
+      source_files = /home/administrator/web_server.html
+      destin_file  = /var/www/html
+
+    tasks:
+      - name: Install Apache Web Server
+        yum:
+          name   = httpd
+          state  = latest    # state = install
+
+      - name: Copy web-server.html
+        copy:
+          src = {{ source_files }}
+          dst = {{ destin_file }}
+        notify: Restart Apache
+
+      - name: Start Apache and enable every boot
+        service:
+          name   = httpd
+          state  = started
+          enable = yes
+
+    handlers:
+      - name: Restart Apache
+        service:
+          name   = httpd
+          state  = restart
