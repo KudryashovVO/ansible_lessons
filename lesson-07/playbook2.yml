@@ -58,7 +58,7 @@
         - "Restart Apache for RedHat"
         - "Restart Apache for Debian"
 
-# Вариант 2 с loop
+# Вариант 2 с with_fileglob
     - name: Copy web-server.html
       copy:
         src = {{ item }}   #копировать все файлы из папки
