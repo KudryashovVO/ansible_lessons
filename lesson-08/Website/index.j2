@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    Owner {{ owner }}  // берется из файла hosts.txt
+    ip address: {{ ansible_default_ipv4_address }}   // переменные берутся из вывода команды: ansible all -m setup
+  </body>
+</html>
