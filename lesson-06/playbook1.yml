@@ -1,0 +1,62 @@
+---
+  - name: Install Apache and Upload Web Server
+    hosts: all
+    become: yes
+
+    vars:
+      source_files = /home/administrator/web_server.html
+      destin_file  = /var/www/html
+
+    tasks:
+
+      - name: Linux OS Family
+        debug:
+          var: ansible_os_family
+
+      - name: Install Apache Web Server for RedHat
+        yum:
+          name   = httpd
+          state  = latest    # state = install
+        when: ansible_os_family == "RedHat"   # Выплнять этот скрипт когда OS = RedHat
+
+
+      - name: Install Apache Web Server for Debian
+        apt:
+          name   = apache2
+          state  = latest
+#        when: ansible_os_family != "RedHat"   # Выплнять этот скрипт когда OS не равен RedHat
+        when: ansible_os_family == "Debian"   # Выплнять этот скрипт когда OS = Debian
+
+
+      - name: Copy web-server.html
+        copy:
+          src = {{ source_files }}
+          dst = {{ destin_file }}
+        notify: Restart Apache
+
+      - name: Start Apache and enable every boot for RedHat
+        service:
+          name   = httpd
+          state  = started
+          enable = yes
+        when: ansible_os_family == "RedHat"   # Выплнять этот скрипт когда OS = RedHat
+
+      - name: Start Apache and enable every boot for Debian
+        service:
+          name   = apache2
+          state  = started
+          enable = yes
+        when: ansible_os_family == "Debian"
+
+    handlers:
+      - name: Restart Apache for RedHat
+        service:
+          name   = httpd
+          state  = restart
+        when: ansible_os_family == "RedHat"
+
+     - name: Restart Apache for Debian
+       service:
+         name  = apache2
+         state = restart
+       when: ansible_os_family == "Debian"
