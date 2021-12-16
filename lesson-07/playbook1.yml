@@ -1,0 +1,34 @@
+---
+- name: Loop # цикл подстановки пермененных
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Show massage
+      debug:
+        msg: I am {{ item }} #зарезервированная переменная
+      loop:                #в старых версия использовать команду = with_items
+          - "Vasia"
+          - "Petia"
+          - "Tania"
+
+    - name: Loop until Example
+      shall: echo -n Z >> myfile.txt && cat myfile.txt
+      register: output
+      delay: 2      # задержка между запусками
+      retries: 10   # количество повторений команды  (без цифры по умолчанию 3 раза)
+      until: output.stdout.find("ZZZZ") == false   #выполнять пока в файле не будет 4 Z
+
+   - name: Print output
+     debug:
+       var: output.stdout
+
+
+   - name: Install a lot of packages
+     yum:
+       name: {{ item }}
+       state: installed
+     loop:
+       - python
+       - tree
+       - docker
