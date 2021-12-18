@@ -1,0 +1,46 @@
+---
+
+-name: Playbbok about delegate_to: ....
+ hosts: all
+ become: yes
+
+ tasks:
+ -name: ping test
+  ping:
+
+ -name: Unregister Server from Load Balancer
+  shell: echo Yhis server {{ inventory_hostname }} was deregistered from our Load Balancer, node name is {{ ansibl_hostname }} >> /home/log.txt
+  delegate_to: 127.0.0.1 # Иныорммация со всех хостов запишется на локальный компьютер
+
+  -name: Update my Database
+   shell: echo update database .......
+   run_once: true  # Запустить на первом хосте из файла hosts.txt
+
+  -name: Create file1
+   copy:
+     dest: /home/file1.txt
+     content: |
+       Blablabla
+   delegate_to: hostname_or_ip # сздастся только на указанном
+
+  -name: Create file2
+   copy:
+     dest: /home/file2.txt
+     content: |
+       Blablabla
+    #Создастся на всех
+
+#__________________________________________________
+# Рукомендуемый процесс перезагрузки
+  -name:  Reboot my Server
+   shell: sleep 3 && reboot now
+   async: 1
+   pool: 0 # При выполнении команды сразу отключиться
+
+  -name: Wait till my server come up online
+   wait_for:
+     hosts: "{{ inventory hostname }}"
+     state: started
+     delay: 5    #начать слушать через 5 сек
+     timeout: 48  # ждать до 48 сек
+    delegate_to: 127.0.0.1    # ждать с нашего устройства
