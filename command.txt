@@ -1,5 +1,11 @@
 #Example
 
+# Использование внешних переменных (extra-vars)
+# пример файл hosts.txt:
+#   редактируем файл hosts.txt ==> hosts: " {{ MYEXTRAVARS }}"        // Имя любое
+# команда: ansible-playbook myplaybook.yml --extra-vars "MYEXTRAVARS=prod"
+
+
 # Инициализация попки roles
 ansible-galaxy role init my_web_site
 
