@@ -1,0 +1,5 @@
+#Connection for Linux
+
+[prod_servers]
+linux1 ansible_host=web.google.com      owner = Vasia
+linux2 ansible_host=web2.google.com     owner = Petia

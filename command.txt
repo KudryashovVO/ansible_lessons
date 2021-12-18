@@ -1,5 +1,8 @@
 #Example
 
+# Инициализация попки roles
+ansible-galaxy role init my_web_site
+
 #выполнить команды
 ansible-playbook имя_плейбука
 
