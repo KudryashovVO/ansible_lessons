@@ -1,0 +1,23 @@
+---
+
+-name: Playbbok about errors
+ hosts: all
+ any_errors_fatal: true  # если на любом хосте есть ошибка останвить выполнение playbook
+ become: yes
+
+ tasks:
+ -name: ping test
+  ping:
+
+ -name: Unregister Server from Load Balancer
+  shell: echo Yhis server {{ inventory_hostname }} was deregistered from our Load Balancer, node name is {{ ansibl_hostname }} >> /home/log.txt
+  ignore_errors: yes   # Если на любом хосте возникает ошибка, продолжить выполнение playbook
+
+ -name: Update my Database
+  shell: echo Hello World
+  register: result
+  failed_when: "'World' in result.stdout"  # Если в выводе stdout будет слово World, останосить выполнение playbook
+#  failed)when: result.rc == 0              # Если статус выполнения = 0 (успех) 1 (нет) останвить
+
+ -debug:
+   var: result
